@@ -94,7 +94,7 @@ The agents use prompt rules to keep context small:
 - Use the Pattern Writer only after the coordinator finds a local reference pattern.
 - Use the stronger roles for ambiguity, architecture, security, concurrency, and debugging.
 
-The first version of this design drew on a Spotify engineering article about context use in coding agents: [Portal by Spotify](https://engineering.atspotify.com/2026/9/portal-by-spotify-cut-my-claude-code-token-usage-by-90). Cohestra applies the routing ideas as prompt rules. Prompt instructions cannot guarantee the result of that article, so Cohestra claims no fixed saving.
+The first version of this design drew on a Spotify engineering article about routing bulk file reading to cheaper models: [Portal by Spotify](https://engineering.atspotify.com/2026/9/portal-by-spotify-cut-my-claude-code-token-usage-by-90). The article reports about 90 percent mean savings on bulk reading in four test scenarios. It does not report a saving for all token use. Cohestra applies the routing ideas as prompt rules only. It uses no hooks and no cheaper-model routing, and it claims no fixed saving.
 
 ## No hooks and no MCP server
 
@@ -107,7 +107,7 @@ These points come from the client documentation that the maintainers checked.
 | Client | Behavior |
 |---|---|
 | VS Code | A root `plugin.json` that declares the Agent Plugins `$schema` uses Agent Plugins semantics. VS Code reads Copilot components from the `com.github.copilot` directory and ignores other namespaces. |
-| GitHub Copilot CLI | Checks the manifest path `plugin.json` before `.claude-plugin/plugin.json`. Reads the marketplace file from `.github/plugin/marketplace.json`. |
+| GitHub Copilot CLI | A root `plugin.json` that declares the Agent Plugins `$schema` takes precedence over `.claude-plugin/plugin.json`. For this format the CLI reads agents from `com.github.copilot/agents/`, not from the root `agents/` directory. It reads the marketplace file from `.github/plugin/marketplace.json`. |
 | GitHub Copilot app | Installs plugins from the **Plugins** view under **Customize**. It reads Agent Plugins packages. |
 | Claude Code | Reads `.claude-plugin/plugin.json` and `agents/`. It dispatches plugin agents as `cohestra:<agent-id>`. |
 
@@ -116,8 +116,8 @@ These points come from the client documentation that the maintainers checked.
 - **Picker visibility.** The visibility fields apply to the Copilot pickers. They do not control the Claude Code interface. The one-visible-agent rule applies to supported Copilot pickers only.
 - **Claude Code allowlist.** The Claude mirror of the coordinator lists the `Agent` tool without a type list. Claude Code applies a type list only when an agent runs as the main thread, and this package does not set one. Specialists have no `Agent` tool, so they cannot delegate.
 - **Claude Code nesting depth.** In Claude Code, the main thread calls the coordinator, and the coordinator calls a specialist. This needs a spawn depth of 2 or more. Claude Code allows 3 by default. When the limit is 1, the nested call fails with `Task is disabled for this session, in subagents as well as here`. The coordinator then cannot delegate. Set `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` to 2 or more.
-- **Copilot CLI agent directories.** The CLI reference lists `agents/` as a default agent location for its own plugin format. This package declares Agent Plugins 1.0, and the Copilot agents live in the `com.github.copilot` directory. After you install the plugin in a CLI version, list the agents. Open an issue when the list shows more than Cohestra Coordinator.
-- **Subagent settings.** Some VS Code versions gate custom agents as subagents behind the `chat.customAgentInSubagent.enabled` setting.
+- **Copilot CLI agent directories.** The CLI documents the `agents/` directory for legacy plugins only. This package declares Agent Plugins 1.0, so the CLI ignores the Claude Code mirrors in `agents/`. A project-level agent with the same name as a plugin agent silently replaces the plugin agent.
+- **Subagent settings.** VS Code 1.109 gated custom agents as subagents behind the `chat.customAgentInSubagent.enabled` setting. Current VS Code documentation describes custom subagents as available by default. Older versions can still need the setting.
 - **Tools differ by client.** A client can grant fewer tools than an agent file requests. The agents state blocked checks in their handbacks.
 
 ## Trust and permission boundaries

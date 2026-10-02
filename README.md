@@ -247,9 +247,10 @@ The `--scaffold` flag runs each fixture script as you, outside the agent sandbox
 | Symptom | Likely cause | Fix |
 |---|---|---|
 | No Cohestra agent in VS Code | Plugins are off. The default is off. | Enable `chat.plugins.enabled`. |
-| The coordinator does not call specialists in VS Code | The client does not allow custom agents as subagents. | Check `chat.customAgentInSubagent.enabled` in your VS Code version. |
+| The coordinator does not call specialists in VS Code | An older VS Code version gates custom subagents, or the `agent` tool is off. | Update VS Code. In VS Code 1.109, enable `chat.customAgentInSubagent.enabled`. |
 | In Claude Code, the coordinator cannot call specialists | The spawn depth is below 2. The call fails with `Task is disabled for this session`. | Set `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` to 2 or more. The default is 3. |
-| The picker shows more than one Cohestra agent | The client reads the Claude Code mirrors. | Update the client. Open an issue with the client name and version. |
+| The picker shows more than one Cohestra agent | The client reads the Claude Code mirrors. Documentation says the clients do not. | Update the client. Open an issue with the client name and version. |
+| A Cohestra agent does not run | A project agent with the same name replaces the plugin agent. | Rename the project agent. |
 | Marketplace not found in Copilot CLI | The marketplace is not registered. | Run `copilot plugin marketplace list`. Add it again. |
 | Changes have no effect | The client holds an old copy. | Update or reinstall the plugin. |
 | `sync_claude_agents.py --check` fails | A mirror is stale. | Run `python3 scripts/sync_claude_agents.py`. |
