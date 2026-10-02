@@ -1,0 +1,32 @@
+name: Plugin evals
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install -g @anthropic-ai/claude-code
+      - name: Run eval suite
+        run: |
+          claude plugin eval . \
+            --trust-plugin \
+            --scaffold \
+            --json eval-results.json \
+            --threshold 0.8 \
+            --model claude-sonnet-5 \
+            --judge-model claude-haiku-4-5 \
+            --no-publish \
+            --max-cost-usd 20
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-results
+          path: |
+            eval-results.json
+            evals/results/

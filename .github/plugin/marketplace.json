@@ -1,0 +1,12 @@
+{
+  "name": "multi-agent-review-coordinator-marketplace",
+  "owner": { "name": "Repository owner" },
+  "plugins": [
+    {
+      "name": "multi-agent-review-coordinator",
+      "source": "./",
+      "description": "A coordinator that delegates repository reviews to specialized agents.",
+      "version": "4.0.0"
+    }
+  ]
+}
