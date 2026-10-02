@@ -1,0 +1,89 @@
+name: Bug report
+description: Report a defect that you can reproduce.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for a defect that you can reproduce. Do not report a security vulnerability here. Use the private security advisory link on the issue chooser page.
+  - type: dropdown
+    id: client
+    attributes:
+      label: Client
+      description: Which client did you use?
+      options:
+        - VS Code Copilot Chat
+        - VS Code Local or Copilot session
+        - GitHub Copilot CLI
+        - GitHub Copilot app
+        - Claude Code
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: client-version
+    attributes:
+      label: Client version
+      description: Give the version of the client. Example is the output of the client version command.
+    validations:
+      required: true
+  - type: input
+    id: cohestra-version
+    attributes:
+      label: Cohestra version
+      description: Give the plugin version from plugin.json.
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Describe the observed behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: Describe what you expected.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: List each step. Include the prompt that you sent to Cohestra Coordinator.
+      placeholder: |
+        1. Open the repository.
+        2. Select Cohestra Coordinator.
+        3. Send the prompt.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Paste relevant log lines. Remove secrets and private code first.
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I removed secrets and private code from this report.
+          required: true
+        - label: This report is not a security vulnerability.
+          required: true

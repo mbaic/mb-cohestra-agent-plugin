@@ -1,6 +1,7 @@
 ---
 name: unrelated-request
-tags: [negative]
+description: A trivial question must not trigger delegation.
+tags: [smoke, negative]
 runs: 3
 max_turns: 4
 timeout_seconds: 120

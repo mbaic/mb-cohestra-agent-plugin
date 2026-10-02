@@ -1,16 +1,22 @@
 # Changelog
 
-## 4.0.0 - 2026-10-01
+This file records each user-visible change. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions before 1.0.0 can include breaking changes.
 
-- Rename the plugin from `agent-review-suite` to `multi-agent-review-coordinator`.
-- Rename the visible agent from `orchestrator` to `coordinator`.
-- Rename the display name from Review Orchestrator to Coordinator.
-- Add an explicit specialist allowlist to Coordinator.
-- Prevent specialists from delegating to other agents.
-- Hide all specialists from the user picker.
-- Rename the portable skill to `coordinated-repository-review`.
-- Update documentation, validation, evals, and workflows.
+## [0.1.0] - 2026-10-02
 
-## 3.0.0 - 2026-10-01
+### Added
 
-- Add cross-client Agent Plugins 1.0 support.
+- First Cohestra product preview.
+- One visible Cohestra Coordinator.
+- Hidden engineering specialists.
+- Agent Plugins 1.0 package.
+- Copilot and Claude compatibility files.
+- Static validation, tests, and behavioral evals.
+- Manual workflows for evals and releases.
+
+### Notes
+
+- This release replaces an internal version 4 prototype. Cohestra starts a new pre-1.0 version sequence.
+- The plugin ID is `cohestra`. Uninstall the prototype before you install Cohestra.
+
+[0.1.0]: https://github.com/mbaic/cohestra-agent-plugin/releases/tag/v0.1.0

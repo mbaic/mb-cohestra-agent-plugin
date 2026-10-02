@@ -1,4 +1,19 @@
+# Eval output. Each run writes a results directory.
 evals/results/
+
+# Release output from scripts/package.py
+dist/
+*.zip
+
+# Python caches
 __pycache__/
-*.pyc
+*.py[cod]
+.pytest_cache/
+
+# Local environment and editor files
+.venv/
+.env
+.env.*
 .DS_Store
+*.swp
+*.tmp
