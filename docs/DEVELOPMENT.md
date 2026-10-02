@@ -66,7 +66,7 @@ python3 tests/run.py
 python3 scripts/package.py
 ```
 
-The package script runs the validator first. It writes `dist/cohestra-agent-plugin-v<version>.zip` and a `.sha256` file. The archive has one top-level `cohestra-agent-plugin/` directory. It excludes `.git/`, `evals/results/`, caches, temporary files, existing ZIP files, and environment files.
+The package script runs the validator first. It writes `dist/mb-cohestra-agent-plugin-v<version>.zip` and a `.sha256` file. The archive has one top-level `mb-cohestra-agent-plugin/` directory. It excludes `.git/`, `evals/results/`, caches, temporary files, existing ZIP files, and environment files.
 
 ## Avoid drift
 

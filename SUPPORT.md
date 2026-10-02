@@ -2,7 +2,7 @@
 
 ## Where to ask
 
-- Open an [issue](https://github.com/mbaic/cohestra-agent-plugin/issues/new/choose) for a defect that you can reproduce, or for a documentation problem.
+- Open an [issue](https://github.com/mbaic/mb-cohestra-agent-plugin/issues/new/choose) for a defect that you can reproduce, or for a documentation problem.
 - Use GitHub Discussions for usage questions, if the repository enables them.
 - Do not report a vulnerability in a public issue. Follow [SECURITY.md](SECURITY.md).
 

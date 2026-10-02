@@ -6,10 +6,10 @@ Usage:
 
 The script runs the sync check and the validator first. It then writes:
 
-    <output-dir>/cohestra-agent-plugin-v<version>.zip
-    <output-dir>/cohestra-agent-plugin-v<version>.zip.sha256
+    <output-dir>/mb-cohestra-agent-plugin-v<version>.zip
+    <output-dir>/mb-cohestra-agent-plugin-v<version>.zip.sha256
 
-The archive has one top-level cohestra-agent-plugin/ directory. Entries have a
+The archive has one top-level mb-cohestra-agent-plugin/ directory. Entries have a
 fixed order, a fixed timestamp, and fixed permissions, so the same source tree
 always gives the same archive. The script reads repository files and writes
 local output. It makes no network call.

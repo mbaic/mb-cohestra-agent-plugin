@@ -72,4 +72,4 @@ The validator checks the banned words and contractions in Markdown files.
 
 ## Security
 
-Do not report a vulnerability in a public issue. Use a [private security advisory](https://github.com/mbaic/cohestra-agent-plugin/security/advisories/new). See [SECURITY.md](SECURITY.md).
+Do not report a vulnerability in a public issue. Use a [private security advisory](https://github.com/mbaic/mb-cohestra-agent-plugin/security/advisories/new). See [SECURITY.md](SECURITY.md).

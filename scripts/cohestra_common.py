@@ -17,8 +17,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 PLUGIN_NAME = "cohestra"
 PLUGIN_VERSION = "0.1.0"  # Update here, in the manifests, and in CHANGELOG.md.
-REPOSITORY_NAME = "cohestra-agent-plugin"
-REPOSITORY_URL = "https://github.com/mbaic/cohestra-agent-plugin"
+REPOSITORY_NAME = "mb-cohestra-agent-plugin"
+REPOSITORY_URL = "https://github.com/mbaic/mb-cohestra-agent-plugin"
 AUTHOR_NAME = "Milos Baic"
 AUTHOR_URL = "https://github.com/mbaic"
 LICENSE_ID = "MIT"
