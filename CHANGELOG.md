@@ -19,4 +19,4 @@ This file records each user-visible change. The format follows [Keep a Changelog
 - This release replaces an internal version 4 prototype. Cohestra starts a new pre-1.0 version sequence.
 - The plugin ID is `cohestra`. Uninstall the prototype before you install Cohestra.
 
-[0.1.0]: https://github.com/mbaic/cohestra-agent-plugin/releases/tag/v0.1.0
+[0.1.0]: https://github.com/mbaic/mb-cohestra-agent-plugin/releases/tag/v0.1.0

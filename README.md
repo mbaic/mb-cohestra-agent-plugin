@@ -71,7 +71,7 @@ The package adds no telemetry code. The host client has its own data practices. 
 ## Package
 
 ```text
-cohestra-agent-plugin/
+mb-cohestra-agent-plugin/
 ├── plugin.json                       Agent Plugins 1.0 manifest
 ├── skills/cohestra-engineering/      Portable skill
 ├── com.github.copilot/agents/        Copilot agents (source of truth)
@@ -93,7 +93,7 @@ Each client keeps its own copy of the plugin. Install and update it in each clie
 1. Enable the `chat.plugins.enabled` setting.
 2. Open the Command Palette.
 3. Run **Chat: Install Plugin From Source**.
-4. Enter `https://github.com/mbaic/cohestra-agent-plugin`.
+4. Enter `https://github.com/mbaic/mb-cohestra-agent-plugin`.
 5. Review the source and confirm the installation.
 6. Open Copilot Chat.
 7. Select **Cohestra Coordinator**.
@@ -105,7 +105,7 @@ Clone the repository. Register the clone in your VS Code settings:
 ```json
 {
   "chat.pluginLocations": {
-    "/absolute/path/to/cohestra-agent-plugin": true
+    "/absolute/path/to/mb-cohestra-agent-plugin": true
   }
 }
 ```
@@ -113,8 +113,8 @@ Clone the repository. Register the clone in your VS Code settings:
 ### GitHub Copilot CLI
 
 ```bash
-copilot plugin marketplace add mbaic/cohestra-agent-plugin
-copilot plugin install cohestra@cohestra-agent-plugin
+copilot plugin marketplace add mbaic/mb-cohestra-agent-plugin
+copilot plugin install cohestra@mb-cohestra-agent-plugin
 ```
 
 Start Copilot CLI. Select **Cohestra Coordinator** from the agent list.
@@ -125,7 +125,7 @@ The app documentation describes this path. See [Customize the GitHub Copilot app
 
 1. Click **Customize** in the sidebar. Then click **Plugins**.
 2. Click the settings icon next to the marketplace dropdown.
-3. Add the GitHub repository `mbaic/cohestra-agent-plugin` and follow the prompts.
+3. Add the GitHub repository `mbaic/mb-cohestra-agent-plugin` and follow the prompts.
 4. Find **cohestra** in the list. Click **Install**.
 
 The documentation lists no command for this install. Agent support depends on the tools that the app provides.
@@ -135,8 +135,8 @@ The documentation lists no command for this install. Agent support depends on th
 The Claude Code files are a compatibility layer. This repository does not publish a Claude Code marketplace. Load the plugin from a local clone:
 
 ```bash
-git clone https://github.com/mbaic/cohestra-agent-plugin
-claude --plugin-dir ./cohestra-agent-plugin
+git clone https://github.com/mbaic/mb-cohestra-agent-plugin
+claude --plugin-dir ./mb-cohestra-agent-plugin
 ```
 
 To start a session as the coordinator, add `--agent cohestra:cohestra-coordinator`.
@@ -247,9 +247,10 @@ The `--scaffold` flag runs each fixture script as you, outside the agent sandbox
 | Symptom | Likely cause | Fix |
 |---|---|---|
 | No Cohestra agent in VS Code | Plugins are off. The default is off. | Enable `chat.plugins.enabled`. |
-| The coordinator does not call specialists in VS Code | The client does not allow custom agents as subagents. | Check `chat.customAgentInSubagent.enabled` in your VS Code version. |
+| The coordinator does not call specialists in VS Code | An older VS Code version gates custom subagents, or the `agent` tool is off. | Update VS Code. In VS Code 1.109, enable `chat.customAgentInSubagent.enabled`. |
 | In Claude Code, the coordinator cannot call specialists | The spawn depth is below 2. The call fails with `Task is disabled for this session`. | Set `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` to 2 or more. The default is 3. |
-| The picker shows more than one Cohestra agent | The client reads the Claude Code mirrors. | Update the client. Open an issue with the client name and version. |
+| The picker shows more than one Cohestra agent | The client reads the Claude Code mirrors. Documentation says the clients do not. | Update the client. Open an issue with the client name and version. |
+| A Cohestra agent does not run | A project agent with the same name replaces the plugin agent. | Rename the project agent. |
 | Marketplace not found in Copilot CLI | The marketplace is not registered. | Run `copilot plugin marketplace list`. Add it again. |
 | Changes have no effect | The client holds an old copy. | Update or reinstall the plugin. |
 | `sync_claude_agents.py --check` fails | A mirror is stale. | Run `python3 scripts/sync_claude_agents.py`. |

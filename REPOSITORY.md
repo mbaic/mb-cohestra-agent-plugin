@@ -5,9 +5,9 @@ This file holds values that the repository owner can copy into GitHub settings. 
 ## Values
 
 ```text
-Repository name: cohestra-agent-plugin
+Repository name: mb-cohestra-agent-plugin
 Description: Cohestra coordinates specialist AI agents for software engineering in VS Code, GitHub Copilot CLI, and the GitHub Copilot app.
-Homepage: https://github.com/mbaic/cohestra-agent-plugin
+Homepage: https://github.com/mbaic/mb-cohestra-agent-plugin
 Topics: agent-plugins, github-copilot, copilot-cli, vscode, software-engineering, multi-agent, software-quality, ai-agents
 ```
 
@@ -24,7 +24,7 @@ Use the repository URL as the homepage until a product site exists.
 | Tagline | Coordinated software engineering. |
 | Short message | One coordinator. Specialist agents. One engineering result. |
 | License | MIT |
-| Release archive | `cohestra-agent-plugin-v0.1.0.zip` |
+| Release archive | `mb-cohestra-agent-plugin-v0.1.0.zip` |
 
 ## Secrets
 

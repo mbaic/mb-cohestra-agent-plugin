@@ -256,6 +256,9 @@ def check_text_files(report: Report, root: Path) -> int:
         for pattern, label, flags in STALE_PATTERNS:
             if re.search(pattern, text, flags):
                 report.fail(f"{name}: stale or placeholder value ({label}): /{pattern}/")
+        for repo in re.findall(r"github\.com/mbaic/([A-Za-z0-9._-]+)", text):
+            if repo != c.REPOSITORY_NAME:
+                report.fail(f"{name}: repository URL names '{repo}'. It must name '{c.REPOSITORY_NAME}'")
         for pattern, label in SECRET_PATTERNS:
             if re.search(pattern, text):
                 report.fail(f"{name}: possible {label}")

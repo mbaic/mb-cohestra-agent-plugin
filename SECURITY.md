@@ -2,7 +2,7 @@
 
 ## Report a vulnerability
 
-Report a vulnerability privately. Use a [GitHub security advisory](https://github.com/mbaic/cohestra-agent-plugin/security/advisories/new). Do not open a public issue or discussion.
+Report a vulnerability privately. Use a [GitHub security advisory](https://github.com/mbaic/mb-cohestra-agent-plugin/security/advisories/new). Do not open a public issue or discussion.
 
 Include these items:
 

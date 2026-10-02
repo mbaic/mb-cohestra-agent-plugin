@@ -33,7 +33,7 @@ HAS_YAML = validate.yaml is not None
 
 NAME = "cohestra"
 VERSION = "0.1.0"
-URL = "https://github.com/mbaic/cohestra-agent-plugin"
+URL = "https://github.com/mbaic/mb-cohestra-agent-plugin"
 COORDINATOR_FILE = "cohestra-coordinator"
 SPECIALIST_FILES = [
     "cohestra-context-analyst",
@@ -164,7 +164,7 @@ class IdentityTests(unittest.TestCase):
         self.assertEqual(self.claude["name"], NAME)
 
     def test_marketplace_points_to_the_repository_root(self):
-        self.assertEqual(self.market["name"], "cohestra-agent-plugin")
+        self.assertEqual(self.market["name"], "mb-cohestra-agent-plugin")
         self.assertEqual(self.market["owner"]["name"], "Milos Baic")
         self.assertEqual(len(self.market["plugins"]), 1)
         self.assertEqual(self.market["plugins"][0]["name"], NAME)
@@ -406,6 +406,26 @@ class HygieneTests(unittest.TestCase):
                 haystack, needle = (text, stale) if stale in CASE_SENSITIVE else (text.lower(), stale.lower())
                 self.assertNotIn(needle, haystack, f"{relative} has {stale!r}")
 
+    def test_repository_name_is_consistent(self):
+        # The GitHub repository is mb-cohestra-agent-plugin. The plugin ID stays cohestra.
+        for path in text_files():
+            relative = path.relative_to(ROOT).as_posix()
+            if relative in EXEMPT_FROM_STALE:
+                continue
+            text = path.read_text(encoding="utf-8")
+            for repo in re.findall(r"github\.com/mbaic/([A-Za-z0-9._-]+)", text):
+                self.assertEqual(repo, "mb-cohestra-agent-plugin", relative)
+            self.assertNotRegex(text, r"(?<!mb-)cohestra-agent-plugin", relative)
+            self.assertNotRegex(text, r"mbaic/(?!mb-cohestra-agent-plugin)cohestra", relative)
+
+    def test_install_commands_use_the_repository_name_and_the_plugin_id(self):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertIn("copilot plugin marketplace add mbaic/mb-cohestra-agent-plugin", readme)
+        self.assertIn("copilot plugin install cohestra@mb-cohestra-agent-plugin", readme)
+        market = json.loads((ROOT / ".github/plugin/marketplace.json").read_text(encoding="utf-8"))
+        self.assertEqual(market["name"], "mb-cohestra-agent-plugin")
+        self.assertEqual(market["plugins"][0]["name"], "cohestra")
+
     def test_gitignore_covers_generated_output(self):
         lines = (ROOT / ".gitignore").read_text(encoding="utf-8").splitlines()
         for entry in ("evals/results/", "dist/", "__pycache__/"):
@@ -452,12 +472,12 @@ class ReadmeTests(unittest.TestCase):
 
     def test_install_commands(self):
         for needle in (
-            "copilot plugin marketplace add mbaic/cohestra-agent-plugin",
-            "copilot plugin install cohestra@cohestra-agent-plugin",
+            "copilot plugin marketplace add mbaic/mb-cohestra-agent-plugin",
+            "copilot plugin install cohestra@mb-cohestra-agent-plugin",
             "chat.plugins.enabled",
             "Chat: Install Plugin From Source",
-            "https://github.com/mbaic/cohestra-agent-plugin",
-            '"/absolute/path/to/cohestra-agent-plugin": true',
+            "https://github.com/mbaic/mb-cohestra-agent-plugin",
+            '"/absolute/path/to/mb-cohestra-agent-plugin": true',
             "chat.pluginLocations",
         ):
             self.assertIn(needle, self.text)
@@ -618,7 +638,7 @@ class WorkflowTests(unittest.TestCase):
         self.assertLess(text.index("Validate the package"), text.index("Create the tag"))
         self.assertLess(text.index("Run the unit tests"), text.index("Create the tag"))
         self.assertLess(text.index("Build the archive"), text.index("Create the tag"))
-        self.assertIn("cohestra-agent-plugin-v", text)
+        self.assertIn("mb-cohestra-agent-plugin-v", text)
         self.assertIn(".sha256", text)
 
     @unittest.skipUnless(HAS_YAML, "PyYAML is not installed")
@@ -894,7 +914,7 @@ class ValidatorNegativeTests(unittest.TestCase):
 
     def test_marketplace_version_name_and_source(self):
         self.assertRejects(lambda r: self.edit(r, ".github/plugin/marketplace.json", '"source": "./"', '"source": "./plugins/x"'), "source must be './'")
-        self.assertRejects(lambda r: self.edit(r, ".github/plugin/marketplace.json", '"name": "cohestra-agent-plugin"', '"name": "x"'), "name must be")
+        self.assertRejects(lambda r: self.edit(r, ".github/plugin/marketplace.json", '"name": "mb-cohestra-agent-plugin"', '"name": "x"'), "name must be")
         self.assertRejects(lambda r: self.edit(r, ".github/plugin/marketplace.json", '"version": "0.1.0"\n  },', '"version": "0.2.0"\n  },'), "metadata.version")
 
     def test_invalid_json(self):
@@ -939,10 +959,13 @@ class ValidatorNegativeTests(unittest.TestCase):
         self.assertRejects(lambda r: self.edit(r, "docs/PRODUCT.md", "Cohestra gives", "agent-review-suite gives"), "stale or placeholder")
 
     def test_placeholder_repository(self):
-        self.assertRejects(lambda r: self.edit(r, "SUPPORT.md", "mbaic/cohestra-agent-plugin", "OWNER/REPOSITORY"), "placeholder repository")
+        self.assertRejects(lambda r: self.edit(r, "SUPPORT.md", "mbaic/mb-cohestra-agent-plugin", "OWNER/REPOSITORY"), "placeholder repository")
 
     def test_old_version_string(self):
         self.assertRejects(lambda r: self.edit(r, "docs/PRODUCT.md", "Cohestra gives", "Cohestra 4.0.0 gives"), "old version")
+
+    def test_wrong_repository_name_in_a_url(self):
+        self.assertRejects(lambda r: self.edit(r, "SUPPORT.md", "mbaic/mb-cohestra-agent-plugin", "mbaic/cohestra-agent-plugin"), "repository URL names")
 
     def test_missing_final_newline(self):
         def mutate(repo):
@@ -1068,11 +1091,11 @@ class PackageTests(unittest.TestCase):
             (repo / ".git").mkdir()
             (repo / ".git/config").write_text("x\n", encoding="utf-8")
             archive, checksum, entries = self.build(repo, Path(tmp) / "out")
-            self.assertEqual(archive.name, "cohestra-agent-plugin-v0.1.0.zip")
-            self.assertEqual(checksum.name, "cohestra-agent-plugin-v0.1.0.zip.sha256")
+            self.assertEqual(archive.name, "mb-cohestra-agent-plugin-v0.1.0.zip")
+            self.assertEqual(checksum.name, "mb-cohestra-agent-plugin-v0.1.0.zip.sha256")
             self.assertEqual(package.verify_zip(archive, entries), [])
             names = zipfile.ZipFile(archive).namelist()
-            self.assertEqual({n.split("/", 1)[0] for n in names}, {"cohestra-agent-plugin"})
+            self.assertEqual({n.split("/", 1)[0] for n in names}, {"mb-cohestra-agent-plugin"})
             self.assertEqual(names, sorted(names))
             for forbidden in (".git/", "evals/results", "__pycache__", ".pytest_cache", ".env", "old.zip", "notes.tmp"):
                 self.assertFalse(any(forbidden in n for n in names), forbidden)
@@ -1080,7 +1103,7 @@ class PackageTests(unittest.TestCase):
                              "plugin.json", "agents/cohestra-coordinator.md",
                              "com.github.copilot/agents/cohestra-coordinator.agent.md",
                              "skills/cohestra-engineering/SKILL.md"):
-                self.assertIn(f"cohestra-agent-plugin/{required}", names)
+                self.assertIn(f"mb-cohestra-agent-plugin/{required}", names)
 
     def test_archive_is_deterministic(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -1104,9 +1127,9 @@ class PackageTests(unittest.TestCase):
             repo = copy_repo(Path(tmp))
             archive, _, _ = self.build(repo, Path(tmp) / "out")
             with zipfile.ZipFile(archive) as bundle:
-                mode = bundle.getinfo("cohestra-agent-plugin/evals/delegates-context-map/fixture.sh").external_attr >> 16
+                mode = bundle.getinfo("mb-cohestra-agent-plugin/evals/delegates-context-map/fixture.sh").external_attr >> 16
                 self.assertEqual(mode & 0o777, 0o755)
-                readme = bundle.getinfo("cohestra-agent-plugin/README.md").external_attr >> 16
+                readme = bundle.getinfo("mb-cohestra-agent-plugin/README.md").external_attr >> 16
                 self.assertEqual(readme & 0o777, 0o644)
 
     def test_main_builds_a_valid_archive_end_to_end(self):
@@ -1117,7 +1140,7 @@ class PackageTests(unittest.TestCase):
                 code = package.main(["--root", str(repo), "--output-dir", str(Path(tmp) / "dist")])
             self.assertEqual(code, 0, out.getvalue())
             self.assertIn("SHA-256:", out.getvalue())
-            self.assertTrue((Path(tmp) / "dist/cohestra-agent-plugin-v0.1.0.zip").is_file())
+            self.assertTrue((Path(tmp) / "dist/mb-cohestra-agent-plugin-v0.1.0.zip").is_file())
 
     def test_main_refuses_to_package_a_broken_repository(self):
         with tempfile.TemporaryDirectory() as tmp:
