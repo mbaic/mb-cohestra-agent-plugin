@@ -4,13 +4,21 @@ Cohestra is an Agent Plugins 1.0 package. It has one visible coordinator, eight 
 
 ## Control model
 
-Cohestra Coordinator is the only agent that a user can select. It delegates bounded tasks to specialists. Each specialist returns a short handback. The coordinator checks the handbacks and returns one result.
+mb-Cohestra Coordinator is the only agent that a user can select. It delegates bounded tasks to specialists. Each specialist returns a short handback. The coordinator checks the handbacks and returns one result.
 
 ```text
-User ──> Cohestra Coordinator ──> Specialist (one bounded task) ──> handback
+User ──> mb-Cohestra Coordinator ──> Specialist (one bounded task) ──> handback
               │                                                       │
               └─────────────── checks evidence, returns one result <──┘
 ```
+
+## Agent names
+
+Every agent ID starts with `mb-cohestra-`. Every display name starts with `mb-Cohestra`. The plugin ID stays `cohestra`.
+
+Copilot clients have no namespace for agents. They match an agent by its `name` field, and the coordinator allowlist lists display names. Two plugins that ship an agent with the same name can clash. A project agent with the same name as a plugin agent silently replaces the plugin agent. The `mb-` prefix makes a clash unlikely and groups these agents in a picker.
+
+Claude Code adds the plugin name to each agent. The full name is `cohestra:mb-cohestra-coordinator`.
 
 ## Visibility model
 
@@ -49,15 +57,15 @@ Each agent has the minimum tools for its role.
 
 | Agent | Copilot tools | Claude Code tools |
 |---|---|---|
-| Cohestra Coordinator | `read`, `search`, `agent` | Read, Glob, Grep, Agent |
-| Cohestra Context Analyst | `read`, `search` | Read, Glob, Grep |
-| Cohestra Software Architect | `read`, `search` | Read, Glob, Grep |
-| Cohestra Implementation Engineer | `read`, `search`, `edit`, `execute` | Read, Glob, Grep, Edit, Write, Bash |
-| Cohestra Security Engineer | `read`, `search`, `execute` | Read, Glob, Grep, Bash |
-| Cohestra Test Engineer | `read`, `search`, `edit`, `execute` | Read, Glob, Grep, Edit, Write, Bash |
-| Cohestra Quality Engineer | `read`, `search`, `execute` | Read, Glob, Grep, Bash |
-| Cohestra Documentation Engineer | `read`, `search`, `edit` | Read, Glob, Grep, Edit, Write |
-| Cohestra Pattern Writer | `read`, `search`, `edit` | Read, Glob, Grep, Edit, Write |
+| mb-Cohestra Coordinator | `read`, `search`, `agent` | Read, Glob, Grep, Agent |
+| mb-Cohestra Context Analyst | `read`, `search` | Read, Glob, Grep |
+| mb-Cohestra Software Architect | `read`, `search` | Read, Glob, Grep |
+| mb-Cohestra Implementation Engineer | `read`, `search`, `edit`, `execute` | Read, Glob, Grep, Edit, Write, Bash |
+| mb-Cohestra Security Engineer | `read`, `search`, `execute` | Read, Glob, Grep, Bash |
+| mb-Cohestra Test Engineer | `read`, `search`, `edit`, `execute` | Read, Glob, Grep, Edit, Write, Bash |
+| mb-Cohestra Quality Engineer | `read`, `search`, `execute` | Read, Glob, Grep, Bash |
+| mb-Cohestra Documentation Engineer | `read`, `search`, `edit` | Read, Glob, Grep, Edit, Write |
+| mb-Cohestra Pattern Writer | `read`, `search`, `edit` | Read, Glob, Grep, Edit, Write |
 
 The coordinator has no edit or execute tool. It delegates both. This keeps its context small and keeps the roles separate.
 

@@ -31,18 +31,18 @@ ARCHIVE_NAME = f"{REPOSITORY_NAME}-v{PLUGIN_VERSION}.zip"
 
 # --- Agent roster -----------------------------------------------------------
 
-COORDINATOR_ID = "cohestra-coordinator"
-COORDINATOR_NAME = "Cohestra Coordinator"
+COORDINATOR_ID = "mb-cohestra-coordinator"
+COORDINATOR_NAME = "mb-Cohestra Coordinator"
 
 SPECIALISTS = [
-    ("cohestra-context-analyst", "Cohestra Context Analyst"),
-    ("cohestra-software-architect", "Cohestra Software Architect"),
-    ("cohestra-implementation-engineer", "Cohestra Implementation Engineer"),
-    ("cohestra-security-engineer", "Cohestra Security Engineer"),
-    ("cohestra-test-engineer", "Cohestra Test Engineer"),
-    ("cohestra-quality-engineer", "Cohestra Quality Engineer"),
-    ("cohestra-documentation-engineer", "Cohestra Documentation Engineer"),
-    ("cohestra-pattern-writer", "Cohestra Pattern Writer"),
+    ("mb-cohestra-context-analyst", "mb-Cohestra Context Analyst"),
+    ("mb-cohestra-software-architect", "mb-Cohestra Software Architect"),
+    ("mb-cohestra-implementation-engineer", "mb-Cohestra Implementation Engineer"),
+    ("mb-cohestra-security-engineer", "mb-Cohestra Security Engineer"),
+    ("mb-cohestra-test-engineer", "mb-Cohestra Test Engineer"),
+    ("mb-cohestra-quality-engineer", "mb-Cohestra Quality Engineer"),
+    ("mb-cohestra-documentation-engineer", "mb-Cohestra Documentation Engineer"),
+    ("mb-cohestra-pattern-writer", "mb-Cohestra Pattern Writer"),
 ]
 SPECIALIST_IDS = [agent_id for agent_id, _ in SPECIALISTS]
 SPECIALIST_NAMES = [name for _, name in SPECIALISTS]
@@ -51,15 +51,15 @@ DISPLAY_NAMES = dict(SPECIALISTS) | {COORDINATOR_ID: COORDINATOR_NAME}
 
 # Largest tool set that each Copilot agent may declare (minimum-tool policy).
 TOOL_POLICY = {
-    "cohestra-coordinator": {"read", "search", "agent"},
-    "cohestra-context-analyst": {"read", "search"},
-    "cohestra-software-architect": {"read", "search"},
-    "cohestra-implementation-engineer": {"read", "search", "edit", "execute"},
-    "cohestra-security-engineer": {"read", "search", "execute"},
-    "cohestra-test-engineer": {"read", "search", "edit", "execute"},
-    "cohestra-quality-engineer": {"read", "search", "execute"},
-    "cohestra-documentation-engineer": {"read", "search", "edit"},
-    "cohestra-pattern-writer": {"read", "search", "edit"},
+    "mb-cohestra-coordinator": {"read", "search", "agent"},
+    "mb-cohestra-context-analyst": {"read", "search"},
+    "mb-cohestra-software-architect": {"read", "search"},
+    "mb-cohestra-implementation-engineer": {"read", "search", "edit", "execute"},
+    "mb-cohestra-security-engineer": {"read", "search", "execute"},
+    "mb-cohestra-test-engineer": {"read", "search", "edit", "execute"},
+    "mb-cohestra-quality-engineer": {"read", "search", "execute"},
+    "mb-cohestra-documentation-engineer": {"read", "search", "edit"},
+    "mb-cohestra-pattern-writer": {"read", "search", "edit"},
 }
 
 COPILOT_DIR = Path("com.github.copilot") / "agents"

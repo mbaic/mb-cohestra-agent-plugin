@@ -8,4 +8,4 @@ timeout_seconds: 420
 allowed_tools: [Read, Glob, Grep, Agent, Write, Edit]
 plugins: ["../.."]
 ---
-Use the Cohestra Coordinator to update the setup guide docs/setup.md for the new configuration keys in src/config.js. Check all examples.
+Use the mb-Cohestra Coordinator to update the setup guide docs/setup.md for the new configuration keys in src/config.js. Check all examples.

@@ -725,7 +725,7 @@ def check_graders(report: Report, root: Path, case: Path) -> None:
         if isinstance(match, str) and "cohestra" in match:
             if not match.startswith("cohestra:"):
                 report.fail(f"{gname}: input_match must start with the namespace 'cohestra:'")
-            for token in re.findall(r"cohestra-[a-z]+(?:-[a-z]+)*", match):
+            for token in re.findall(r"(?:mb-)?cohestra-[a-z]+(?:-[a-z]+)*", match):
                 if token not in c.ALL_AGENT_IDS:
                     report.fail(f"{gname}: input_match names an unknown agent: {token}")
     if types and all(kind in {"llm", "baseline"} for kind in types) and not inline:

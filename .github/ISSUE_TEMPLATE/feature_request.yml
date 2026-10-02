@@ -12,7 +12,7 @@ body:
     attributes:
       label: Area
       options:
-        - Cohestra Coordinator
+        - mb-Cohestra Coordinator
         - Specialist agents
         - Portable skill
         - Packaging and install

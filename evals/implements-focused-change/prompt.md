@@ -8,4 +8,4 @@ timeout_seconds: 600
 allowed_tools: [Read, Glob, Grep, Agent, Write, Edit]
 plugins: ["../.."]
 ---
-Use the Cohestra Coordinator to add a slugify function in src/slugify.js. It lowercases the text, replaces each run of non-alphanumeric characters with one hyphen, and removes hyphens at both ends. Follow the style of src/text.js. Add tests in test/slugify.test.js. Do not run commands.
+Use the mb-Cohestra Coordinator to add a slugify function in src/slugify.js. It lowercases the text, replaces each run of non-alphanumeric characters with one hyphen, and removes hyphens at both ends. Follow the style of src/text.js. Add tests in test/slugify.test.js. Do not run commands.

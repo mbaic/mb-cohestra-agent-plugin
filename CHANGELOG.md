@@ -7,7 +7,7 @@ This file records each user-visible change. The format follows [Keep a Changelog
 ### Added
 
 - First Cohestra product preview.
-- One visible Cohestra Coordinator.
+- One visible mb-Cohestra Coordinator.
 - Hidden engineering specialists.
 - Agent Plugins 1.0 package.
 - Copilot and Claude compatibility files.
@@ -18,5 +18,6 @@ This file records each user-visible change. The format follows [Keep a Changelog
 
 - This release replaces an internal version 4 prototype. Cohestra starts a new pre-1.0 version sequence.
 - The plugin ID is `cohestra`. Uninstall the prototype before you install Cohestra.
+- Agent IDs start with `mb-cohestra-` and display names start with `mb-Cohestra`. This avoids name clashes with agents from other plugins.
 
 [0.1.0]: https://github.com/mbaic/mb-cohestra-agent-plugin/releases/tag/v0.1.0

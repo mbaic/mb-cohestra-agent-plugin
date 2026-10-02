@@ -8,7 +8,7 @@ timeout_seconds: 240
 allowed_tools: [Read, Glob, Grep, Agent]
 plugins: ["../.."]
 ---
-Use the Cohestra Coordinator to review this code for concrete security defects:
+Use the mb-Cohestra Coordinator to review this code for concrete security defects:
 
 `src/query.js`:
 ```js

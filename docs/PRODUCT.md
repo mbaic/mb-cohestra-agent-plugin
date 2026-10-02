@@ -21,7 +21,7 @@ A software engineer or architect who works on a real repository with VS Code, Gi
 | Term | Meaning |
 |---|---|
 | Plugin | A package that adds agents and skills to an AI client. |
-| Coordinator | The one visible agent. It defines the result and delegates work. Its full name is Cohestra Coordinator. |
+| Coordinator | The one visible agent. It defines the result and delegates work. Its full name is mb-Cohestra Coordinator. |
 | Specialist | A hidden agent with one engineering role. It does bounded work and cannot delegate. |
 | Delegation brief | The task, scope, constraints, and output format that the coordinator gives to a specialist. |
 | Handback | The short report that a specialist returns to the coordinator. |
@@ -65,7 +65,7 @@ Code review is one capability. It is not the product boundary.
 
 The product meets its goal when these statements are true:
 
-1. The Copilot agent picker shows only Cohestra Coordinator from this plugin.
+1. The Copilot agent picker shows only mb-Cohestra Coordinator from this plugin.
 2. The coordinator can call only the eight specialists. A specialist cannot call an agent.
 3. Static validation and the unit tests pass without credentials.
 4. The behavioral evals meet their threshold when a maintainer runs them with valid credentials.

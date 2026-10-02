@@ -34,37 +34,37 @@ HAS_YAML = validate.yaml is not None
 NAME = "cohestra"
 VERSION = "0.1.0"
 URL = "https://github.com/mbaic/mb-cohestra-agent-plugin"
-COORDINATOR_FILE = "cohestra-coordinator"
+COORDINATOR_FILE = "mb-cohestra-coordinator"
 SPECIALIST_FILES = [
-    "cohestra-context-analyst",
-    "cohestra-software-architect",
-    "cohestra-implementation-engineer",
-    "cohestra-security-engineer",
-    "cohestra-test-engineer",
-    "cohestra-quality-engineer",
-    "cohestra-documentation-engineer",
-    "cohestra-pattern-writer",
+    "mb-cohestra-context-analyst",
+    "mb-cohestra-software-architect",
+    "mb-cohestra-implementation-engineer",
+    "mb-cohestra-security-engineer",
+    "mb-cohestra-test-engineer",
+    "mb-cohestra-quality-engineer",
+    "mb-cohestra-documentation-engineer",
+    "mb-cohestra-pattern-writer",
 ]
 SPECIALIST_NAMES = [
-    "Cohestra Context Analyst",
-    "Cohestra Software Architect",
-    "Cohestra Implementation Engineer",
-    "Cohestra Security Engineer",
-    "Cohestra Test Engineer",
-    "Cohestra Quality Engineer",
-    "Cohestra Documentation Engineer",
-    "Cohestra Pattern Writer",
+    "mb-Cohestra Context Analyst",
+    "mb-Cohestra Software Architect",
+    "mb-Cohestra Implementation Engineer",
+    "mb-Cohestra Security Engineer",
+    "mb-Cohestra Test Engineer",
+    "mb-Cohestra Quality Engineer",
+    "mb-Cohestra Documentation Engineer",
+    "mb-Cohestra Pattern Writer",
 ]
 TOOLS = {
-    "cohestra-coordinator": ["read", "search", "agent"],
-    "cohestra-context-analyst": ["read", "search"],
-    "cohestra-software-architect": ["read", "search"],
-    "cohestra-implementation-engineer": ["read", "search", "edit", "execute"],
-    "cohestra-security-engineer": ["read", "search", "execute"],
-    "cohestra-test-engineer": ["read", "search", "edit", "execute"],
-    "cohestra-quality-engineer": ["read", "search", "execute"],
-    "cohestra-documentation-engineer": ["read", "search", "edit"],
-    "cohestra-pattern-writer": ["read", "search", "edit"],
+    "mb-cohestra-coordinator": ["read", "search", "agent"],
+    "mb-cohestra-context-analyst": ["read", "search"],
+    "mb-cohestra-software-architect": ["read", "search"],
+    "mb-cohestra-implementation-engineer": ["read", "search", "edit", "execute"],
+    "mb-cohestra-security-engineer": ["read", "search", "execute"],
+    "mb-cohestra-test-engineer": ["read", "search", "edit", "execute"],
+    "mb-cohestra-quality-engineer": ["read", "search", "execute"],
+    "mb-cohestra-documentation-engineer": ["read", "search", "edit"],
+    "mb-cohestra-pattern-writer": ["read", "search", "edit"],
 }
 ROOT_MANIFEST_KEYS = {
     "$schema", "name", "version", "description", "author", "homepage",
@@ -198,12 +198,13 @@ class AgentTests(unittest.TestCase):
 
     def test_file_name_and_display_name_agree(self):
         for file_id, agent in self.agents.items():
-            expected = " ".join(word.capitalize() for word in file_id.split("-"))
+            # File mb-cohestra-test-engineer.agent.md has the display name "mb-Cohestra Test Engineer".
+            expected = "mb-" + " ".join(word.capitalize() for word in file_id.split("-")[1:])
             self.assertEqual(agent.meta["name"], expected, file_id)
 
     def test_exactly_one_visible_agent(self):
         visible = [a.meta["name"] for a in self.agents.values() if a.meta.get("user-invocable", True) is not False]
-        self.assertEqual(visible, ["Cohestra Coordinator"])
+        self.assertEqual(visible, ["mb-Cohestra Coordinator"])
 
     def test_specialists_are_hidden_and_callable(self):
         for file_id in SPECIALIST_FILES:
@@ -223,7 +224,7 @@ class AgentTests(unittest.TestCase):
         self.assertIs(meta["disable-model-invocation"], True)
         self.assertEqual(sorted(meta["agents"]), sorted(SPECIALIST_NAMES))
         self.assertEqual(len(meta["agents"]), 8)
-        self.assertNotIn("Cohestra Coordinator", meta["agents"])
+        self.assertNotIn("mb-Cohestra Coordinator", meta["agents"])
 
     def test_no_target_and_no_model(self):
         for file_id, agent in self.agents.items():
@@ -258,7 +259,7 @@ class AgentTests(unittest.TestCase):
             self.assertIn(name, body)
 
     def test_pattern_writer_is_kept_and_limited(self):
-        agent = self.agents["cohestra-pattern-writer"]
+        agent = self.agents["mb-cohestra-pattern-writer"]
         self.assertIn("low-risk", agent.meta["description"])
         self.assertIn("architecture, security, concurrency, migration", agent.body)
 
@@ -286,12 +287,12 @@ class MirrorTests(unittest.TestCase):
             self.assertEqual(meta["name"], path.stem)
 
     def test_tool_mapping(self):
-        self.assertEqual(first_frontmatter(ROOT / "agents/cohestra-coordinator.md")["tools"], "Read, Glob, Grep, Agent")
+        self.assertEqual(first_frontmatter(ROOT / "agents/mb-cohestra-coordinator.md")["tools"], "Read, Glob, Grep, Agent")
         self.assertEqual(
-            first_frontmatter(ROOT / "agents/cohestra-implementation-engineer.md")["tools"],
+            first_frontmatter(ROOT / "agents/mb-cohestra-implementation-engineer.md")["tools"],
             "Read, Glob, Grep, Edit, Write, Bash",
         )
-        self.assertEqual(first_frontmatter(ROOT / "agents/cohestra-context-analyst.md")["tools"], "Read, Glob, Grep")
+        self.assertEqual(first_frontmatter(ROOT / "agents/mb-cohestra-context-analyst.md")["tools"], "Read, Glob, Grep")
 
     def test_mirror_keeps_the_prompt_body(self):
         for path in (ROOT / "com.github.copilot/agents").glob("*.agent.md"):
@@ -303,7 +304,7 @@ class MirrorTests(unittest.TestCase):
     def test_check_fails_on_a_stale_mirror_and_write_repairs_it(self):
         with tempfile.TemporaryDirectory() as tmp:
             repo = copy_repo(Path(tmp))
-            mirror = repo / "agents/cohestra-test-engineer.md"
+            mirror = repo / "agents/mb-cohestra-test-engineer.md"
             mirror.write_text(mirror.read_text(encoding="utf-8") + "extra\n", encoding="utf-8")
             with contextlib.redirect_stdout(io.StringIO()):
                 self.assertEqual(sync.main(["--check", "--root", str(repo)]), 1)
@@ -313,7 +314,7 @@ class MirrorTests(unittest.TestCase):
     def test_check_fails_on_a_missing_and_an_orphan_mirror(self):
         with tempfile.TemporaryDirectory() as tmp:
             repo = copy_repo(Path(tmp))
-            (repo / "agents/cohestra-pattern-writer.md").unlink()
+            (repo / "agents/mb-cohestra-pattern-writer.md").unlink()
             (repo / "agents/old-agent.md").write_text("---\nname: old-agent\n---\n", encoding="utf-8")
             out = io.StringIO()
             with contextlib.redirect_stdout(out):
@@ -338,7 +339,7 @@ class MirrorTests(unittest.TestCase):
     def test_sync_rejects_an_unknown_field_and_an_unknown_tool(self):
         with tempfile.TemporaryDirectory() as tmp:
             repo = copy_repo(Path(tmp))
-            source = repo / "com.github.copilot/agents/cohestra-test-engineer.agent.md"
+            source = repo / "com.github.copilot/agents/mb-cohestra-test-engineer.agent.md"
             text = source.read_text(encoding="utf-8")
             source.write_text(text.replace("agents: []\n", "agents: []\nhandoffs: [x]\n", 1), encoding="utf-8")
             with contextlib.redirect_stdout(io.StringIO()):
@@ -449,7 +450,7 @@ class ReadmeTests(unittest.TestCase):
         self.assertTrue(self.text.startswith(
             "# Cohestra\n\n**Coordinated software engineering.**\n\n"
             "Cohestra coordinates specialist AI agents for software engineering work. "
-            "You use one visible agent: **Cohestra Coordinator**.\n\n"
+            "You use one visible agent: **mb-Cohestra Coordinator**.\n\n"
             "The coordinator defines the task. It selects the required specialists. "
             "It checks their work. It returns one result.\n"
         ))
@@ -493,6 +494,15 @@ class ReadmeTests(unittest.TestCase):
         ):
             self.assertIn(prompt, self.text)
 
+    def test_readme_gives_enough_prompt_examples(self):
+        use = self.text.split("\n## Use\n", 1)[1].split("\n## Client support", 1)[0]
+        blocks = re.findall(r"```text\n(.+?)\n```", use, re.DOTALL)
+        self.assertGreaterEqual(len(blocks), 16)
+        self.assertIn("### More prompts", use)
+        self.assertIn("### Tips for good prompts", use)
+        self.assertIn("Do not edit files", use)
+        self.assertIn("Use the mb-Cohestra Coordinator to", use)
+
     def test_accurate_boundaries(self):
         self.assertIn("The plugin is not read-only.", self.text)
         self.assertNotRegex(self.text, r"(?i)fully read-only")
@@ -506,7 +516,7 @@ class ReadmeTests(unittest.TestCase):
             self.assertIn(f"| {client} |", self.text)
 
     def test_all_nine_agents_in_the_table(self):
-        for name in ["Cohestra Coordinator"] + SPECIALIST_NAMES:
+        for name in ["mb-Cohestra Coordinator"] + SPECIALIST_NAMES:
             self.assertIn(f"| {name} |", self.text)
 
     def test_relative_links_resolve(self):
@@ -540,7 +550,7 @@ class EvalTests(unittest.TestCase):
             if meta.get("tool") == "Agent" and meta.get("input_match"):
                 seen += 1
                 self.assertTrue(meta["input_match"].startswith("cohestra:"), grader)
-                for token in re.findall(r"cohestra-[a-z]+(?:-[a-z]+)*", meta["input_match"]):
+                for token in re.findall(r"(?:mb-)?cohestra-[a-z]+(?:-[a-z]+)*", meta["input_match"]):
                     self.assertIn(token, [COORDINATOR_FILE] + SPECIALIST_FILES, grader)
         self.assertGreaterEqual(seen, 8)
 
@@ -775,61 +785,61 @@ class ValidatorNegativeTests(unittest.TestCase):
 
     def test_visible_specialist(self):
         self.assertRejects(
-            lambda r: self.edit(r, "com.github.copilot/agents/cohestra-test-engineer.agent.md", "user-invocable: false", "user-invocable: true"),
+            lambda r: self.edit(r, "com.github.copilot/agents/mb-cohestra-test-engineer.agent.md", "user-invocable: false", "user-invocable: true"),
             "exactly one Copilot agent must be visible",
         )
 
     def test_specialist_without_the_visibility_field_is_visible_by_default(self):
         self.assertRejects(
-            lambda r: self.edit(r, "com.github.copilot/agents/cohestra-test-engineer.agent.md", "user-invocable: false\n", ""),
+            lambda r: self.edit(r, "com.github.copilot/agents/mb-cohestra-test-engineer.agent.md", "user-invocable: false\n", ""),
             "exactly one Copilot agent must be visible",
         )
 
     def test_no_visible_agent(self):
         self.assertRejects(
-            lambda r: self.edit(r, "com.github.copilot/agents/cohestra-coordinator.agent.md", "user-invocable: true", "user-invocable: false"),
+            lambda r: self.edit(r, "com.github.copilot/agents/mb-cohestra-coordinator.agent.md", "user-invocable: true", "user-invocable: false"),
             "exactly one Copilot agent must be visible",
         )
 
     def test_visible_agent_with_the_wrong_name(self):
         self.assertRejects(
-            lambda r: self.edit(r, "com.github.copilot/agents/cohestra-coordinator.agent.md", "name: Cohestra Coordinator", "name: Coordinator"),
-            "name must be 'Cohestra Coordinator'",
+            lambda r: self.edit(r, "com.github.copilot/agents/mb-cohestra-coordinator.agent.md", "name: mb-Cohestra Coordinator", "name: Coordinator"),
+            "name must be 'mb-Cohestra Coordinator'",
         )
 
     def test_blocked_specialist(self):
         self.assertRejects(
-            lambda r: self.edit(r, "com.github.copilot/agents/cohestra-test-engineer.agent.md", "disable-model-invocation: false", "disable-model-invocation: true"),
+            lambda r: self.edit(r, "com.github.copilot/agents/mb-cohestra-test-engineer.agent.md", "disable-model-invocation: false", "disable-model-invocation: true"),
             "must set disable-model-invocation: false",
         )
 
     def test_delegating_specialist(self):
         self.assertRejects(
-            lambda r: self.edit(r, "com.github.copilot/agents/cohestra-test-engineer.agent.md", "agents: []", 'agents: ["Cohestra Pattern Writer"]'),
+            lambda r: self.edit(r, "com.github.copilot/agents/mb-cohestra-test-engineer.agent.md", "agents: []", 'agents: ["mb-Cohestra Pattern Writer"]'),
             "cannot delegate",
         )
 
     def test_specialist_with_the_agent_tool(self):
         self.assertRejects(
-            lambda r: self.edit(r, "com.github.copilot/agents/cohestra-context-analyst.agent.md", "tools: [read, search]", "tools: [read, search, agent]"),
+            lambda r: self.edit(r, "com.github.copilot/agents/mb-cohestra-context-analyst.agent.md", "tools: [read, search]", "tools: [read, search, agent]"),
             "tools exceed the policy",
         )
 
     def test_coordinator_delegation_outside_the_roster(self):
         self.assertRejects(
-            lambda r: self.edit(r, "com.github.copilot/agents/cohestra-coordinator.agent.md", '"Cohestra Pattern Writer"]', '"Cohestra Pattern Writer", "Rogue Agent"]'),
+            lambda r: self.edit(r, "com.github.copilot/agents/mb-cohestra-coordinator.agent.md", '"mb-Cohestra Pattern Writer"]', '"mb-Cohestra Pattern Writer", "Rogue Agent"]'),
             "delegation outside the Cohestra roster",
         )
 
     def test_coordinator_allowlist_missing_a_specialist(self):
         self.assertRejects(
-            lambda r: self.edit(r, "com.github.copilot/agents/cohestra-coordinator.agent.md", ', "Cohestra Pattern Writer"]', "]"),
+            lambda r: self.edit(r, "com.github.copilot/agents/mb-cohestra-coordinator.agent.md", ', "mb-Cohestra Pattern Writer"]', "]"),
             "allowlist is missing specialists",
         )
 
     def test_coordinator_with_edit_tools(self):
         self.assertRejects(
-            lambda r: self.edit(r, "com.github.copilot/agents/cohestra-coordinator.agent.md", "tools: [read, search, agent]", "tools: [read, search, agent, edit]"),
+            lambda r: self.edit(r, "com.github.copilot/agents/mb-cohestra-coordinator.agent.md", "tools: [read, search, agent]", "tools: [read, search, agent, edit]"),
             "tools exceed the policy",
         )
 
@@ -837,43 +847,43 @@ class ValidatorNegativeTests(unittest.TestCase):
         for value in ("vscode", "github-copilot"):
             with self.subTest(value=value):
                 self.assertRejects(
-                    lambda r, v=value: self.edit(r, "com.github.copilot/agents/cohestra-test-engineer.agent.md", "agents: []\n", f"agents: []\ntarget: {v}\n"),
+                    lambda r, v=value: self.edit(r, "com.github.copilot/agents/mb-cohestra-test-engineer.agent.md", "agents: []\n", f"agents: []\ntarget: {v}\n"),
                     "'target' is not allowed",
                 )
 
     def test_model_field_is_rejected(self):
         self.assertRejects(
-            lambda r: self.edit(r, "com.github.copilot/agents/cohestra-test-engineer.agent.md", "agents: []\n", "agents: []\nmodel: some-model\n"),
+            lambda r: self.edit(r, "com.github.copilot/agents/mb-cohestra-test-engineer.agent.md", "agents: []\n", "agents: []\nmodel: some-model\n"),
             "'model' is not allowed",
         )
 
     def test_missing_agent_file(self):
         self.assertRejects(
-            lambda r: (r / "com.github.copilot/agents/cohestra-pattern-writer.agent.md").unlink(),
+            lambda r: (r / "com.github.copilot/agents/mb-cohestra-pattern-writer.agent.md").unlink(),
             "missing agent file",
         )
 
     def test_invalid_frontmatter(self):
         self.assertRejects(
-            lambda r: self.edit(r, "com.github.copilot/agents/cohestra-test-engineer.agent.md", "tools: [read, search, edit, execute]", "tools: [read, search"),
+            lambda r: self.edit(r, "com.github.copilot/agents/mb-cohestra-test-engineer.agent.md", "tools: [read, search, edit, execute]", "tools: [read, search"),
             "invalid YAML frontmatter",
         )
 
     def test_specialist_contract_line_removed(self):
         self.assertRejects(
-            lambda r: self.edit(r, "com.github.copilot/agents/cohestra-test-engineer.agent.md", "- Do not invoke another agent.\n", ""),
+            lambda r: self.edit(r, "com.github.copilot/agents/mb-cohestra-test-engineer.agent.md", "- Do not invoke another agent.\n", ""),
             "specialist contract line is missing",
         )
 
     def test_stale_claude_mirror(self):
         self.assertRejects(
-            lambda r: self.edit(r, "agents/cohestra-test-engineer.md", "# Role", "# Role changed"),
+            lambda r: self.edit(r, "agents/mb-cohestra-test-engineer.md", "# Role", "# Role changed"),
             "differs from its Copilot source",
         )
 
     def test_copilot_only_field_in_a_mirror(self):
         self.assertRejects(
-            lambda r: self.edit(r, "agents/cohestra-test-engineer.md", "tools:", "user-invocable: false\ntools:"),
+            lambda r: self.edit(r, "agents/mb-cohestra-test-engineer.md", "tools:", "user-invocable: false\ntools:"),
             "Copilot-only or unsupported field",
         )
 
@@ -939,7 +949,7 @@ class ValidatorNegativeTests(unittest.TestCase):
 
     def test_eval_agent_match_with_an_unknown_agent(self):
         self.assertRejects(
-            lambda r: self.edit(r, "evals/delegates-context-map/graders/coordinator-called.md", "cohestra-coordinator", "cohestra-context-reader"),
+            lambda r: self.edit(r, "evals/delegates-context-map/graders/coordinator-called.md", "mb-cohestra-coordinator", "cohestra-context-reader"),
             "unknown agent",
         )
 
@@ -1100,8 +1110,8 @@ class PackageTests(unittest.TestCase):
             for forbidden in (".git/", "evals/results", "__pycache__", ".pytest_cache", ".env", "old.zip", "notes.tmp"):
                 self.assertFalse(any(forbidden in n for n in names), forbidden)
             for required in (".claude-plugin/plugin.json", ".github/workflows/release.yml", ".github/plugin/marketplace.json",
-                             "plugin.json", "agents/cohestra-coordinator.md",
-                             "com.github.copilot/agents/cohestra-coordinator.agent.md",
+                             "plugin.json", "agents/mb-cohestra-coordinator.md",
+                             "com.github.copilot/agents/mb-cohestra-coordinator.agent.md",
                              "skills/cohestra-engineering/SKILL.md"):
                 self.assertIn(f"mb-cohestra-agent-plugin/{required}", names)
 
@@ -1145,7 +1155,7 @@ class PackageTests(unittest.TestCase):
     def test_main_refuses_to_package_a_broken_repository(self):
         with tempfile.TemporaryDirectory() as tmp:
             repo = copy_repo(Path(tmp))
-            path = repo / "com.github.copilot/agents/cohestra-test-engineer.agent.md"
+            path = repo / "com.github.copilot/agents/mb-cohestra-test-engineer.agent.md"
             path.write_text(path.read_text(encoding="utf-8").replace("user-invocable: false", "user-invocable: true", 1), encoding="utf-8")
             with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
                 code = package.main(["--root", str(repo), "--output-dir", str(Path(tmp) / "dist")])

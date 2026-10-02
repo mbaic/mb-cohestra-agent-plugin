@@ -59,7 +59,7 @@ Write in ASD-STE100 Simplified Technical English where practical.
 - Use one term for one concept. Use `specialist`, not `worker`.
 - Avoid contractions, idioms, humor, and sales claims.
 - Avoid the words `simply`, `obviously`, and `just`.
-- Use **Cohestra Coordinator** as the full name of the visible agent.
+- Use **mb-Cohestra Coordinator** as the full name of the visible agent.
 
 The validator checks the banned words and contractions in Markdown files.
 

@@ -2,7 +2,7 @@
 
 **Coordinated software engineering.**
 
-Cohestra coordinates specialist AI agents for software engineering work. You use one visible agent: **Cohestra Coordinator**.
+Cohestra coordinates specialist AI agents for software engineering work. You use one visible agent: **mb-Cohestra Coordinator**.
 
 The coordinator defines the task. It selects the required specialists. It checks their work. It returns one result.
 
@@ -16,21 +16,21 @@ The package has one visible agent and eight specialists.
 
 | Agent | ID | Visible | Purpose |
 |---|---|:-:|---|
-| Cohestra Coordinator | `cohestra-coordinator` | Yes | Defines the result, plans delegation, checks outputs, and reports one result. |
-| Cohestra Context Analyst | `cohestra-context-analyst` | No | Finds relevant files, symbols, dependencies, tests, and repository rules. |
-| Cohestra Software Architect | `cohestra-software-architect` | No | Designs boundaries, interfaces, data flow, migration steps, and failure isolation. |
-| Cohestra Implementation Engineer | `cohestra-implementation-engineer` | No | Makes focused code and configuration changes. |
-| Cohestra Security Engineer | `cohestra-security-engineer` | No | Assesses trust boundaries, access control, input, secrets, dependencies, and sensitive data. |
-| Cohestra Test Engineer | `cohestra-test-engineer` | No | Designs, writes, and runs focused tests. |
-| Cohestra Quality Engineer | `cohestra-quality-engineer` | No | Checks correctness, compatibility, maintenance, performance, and regression risk. |
-| Cohestra Documentation Engineer | `cohestra-documentation-engineer` | No | Updates affected user, operator, API, and developer documentation. |
-| Cohestra Pattern Writer | `cohestra-pattern-writer` | No | Produces mechanical files and repetitive edits from a verified local pattern. |
+| mb-Cohestra Coordinator | `mb-cohestra-coordinator` | Yes | Defines the result, plans delegation, checks outputs, and reports one result. |
+| mb-Cohestra Context Analyst | `mb-cohestra-context-analyst` | No | Finds relevant files, symbols, dependencies, tests, and repository rules. |
+| mb-Cohestra Software Architect | `mb-cohestra-software-architect` | No | Designs boundaries, interfaces, data flow, migration steps, and failure isolation. |
+| mb-Cohestra Implementation Engineer | `mb-cohestra-implementation-engineer` | No | Makes focused code and configuration changes. |
+| mb-Cohestra Security Engineer | `mb-cohestra-security-engineer` | No | Assesses trust boundaries, access control, input, secrets, dependencies, and sensitive data. |
+| mb-Cohestra Test Engineer | `mb-cohestra-test-engineer` | No | Designs, writes, and runs focused tests. |
+| mb-Cohestra Quality Engineer | `mb-cohestra-quality-engineer` | No | Checks correctness, compatibility, maintenance, performance, and regression risk. |
+| mb-Cohestra Documentation Engineer | `mb-cohestra-documentation-engineer` | No | Updates affected user, operator, API, and developer documentation. |
+| mb-Cohestra Pattern Writer | `mb-cohestra-pattern-writer` | No | Produces mechanical files and repetitive edits from a verified local pattern. |
 
-The Copilot agent picker shows only Cohestra Coordinator. The coordinator can call only these eight specialists. A specialist cannot call another agent.
+The Copilot agent picker shows only mb-Cohestra Coordinator. The coordinator can call only these eight specialists. A specialist cannot call another agent.
 
 ## How it works
 
-1. You select **Cohestra Coordinator**.
+1. You select **mb-Cohestra Coordinator**.
 2. You describe the task.
 3. The coordinator restates the result and the constraints.
 4. The coordinator searches the repository before it reads files.
@@ -96,7 +96,7 @@ Each client keeps its own copy of the plugin. Install and update it in each clie
 4. Enter `https://github.com/mbaic/mb-cohestra-agent-plugin`.
 5. Review the source and confirm the installation.
 6. Open Copilot Chat.
-7. Select **Cohestra Coordinator**.
+7. Select **mb-Cohestra Coordinator**.
 
 ### VS Code local development
 
@@ -117,7 +117,7 @@ copilot plugin marketplace add mbaic/mb-cohestra-agent-plugin
 copilot plugin install cohestra@mb-cohestra-agent-plugin
 ```
 
-Start Copilot CLI. Select **Cohestra Coordinator** from the agent list.
+Start Copilot CLI. Select **mb-Cohestra Coordinator** from the agent list.
 
 ### GitHub Copilot app
 
@@ -139,11 +139,11 @@ git clone https://github.com/mbaic/mb-cohestra-agent-plugin
 claude --plugin-dir ./mb-cohestra-agent-plugin
 ```
 
-To start a session as the coordinator, add `--agent cohestra:cohestra-coordinator`.
+To start a session as the coordinator, add `--agent cohestra:mb-cohestra-coordinator`.
 
 ## Use
 
-Select **Cohestra Coordinator**. Give it a task and the constraints.
+Select **mb-Cohestra Coordinator**. Give it a task and the constraints.
 
 Build a feature:
 
@@ -180,6 +180,78 @@ Update documentation:
 ```text
 Update the setup guide for the new configuration keys. Check all examples.
 ```
+
+### More prompts
+
+Use these as starting points. Replace the names with your own.
+
+Explore a repository:
+
+```text
+Map how a request moves from the API route to the database. Return paths and symbols only. Do not edit files.
+```
+
+Design an interface:
+
+```text
+Design the interface between the billing module and the notification module. List the migration steps in order. Do not edit files.
+```
+
+Check security:
+
+```text
+Check the file upload endpoint for security defects. Trace each input to its use. Do not edit files.
+```
+
+Check quality:
+
+```text
+Check the retry logic for correctness and regression risk. Run the existing tests. Do not edit files.
+```
+
+Add a small feature:
+
+```text
+Add a --dry-run option to the export command. Follow the existing option pattern. Add one test.
+```
+
+Refactor safely:
+
+```text
+Extract the duplicated validation code in the order handlers into one function. Keep the behavior the same. Run the related tests.
+```
+
+Plan an upgrade:
+
+```text
+Plan the upgrade from version 2 to version 3 of the HTTP client library. List the breaking changes that affect this repository. Do not edit files.
+```
+
+Copy a pattern:
+
+```text
+Add handlers for invoices, payments, and refunds. Copy the pattern of the existing user handler.
+```
+
+Update documentation:
+
+```text
+Update the API reference for the new pagination parameters. Check each example against the code.
+```
+
+Combine roles:
+
+```text
+Fix the failing login test. Add a regression test. Update the changelog.
+```
+
+### Tips for good prompts
+
+- State whether Cohestra can edit files. Write "Do not edit files" for a plan or a review.
+- Name the files, the endpoint, or the test when you know them.
+- Ask for the checks that you want, such as "Run the related tests".
+- Describe one result. The coordinator splits the work.
+- In Claude Code, start with "Use the mb-Cohestra Coordinator to". Claude Code has no agent picker.
 
 ## Client support
 
@@ -229,7 +301,7 @@ Run the full suite. The edit cases need the `Write` and `Edit` tools:
 claude plugin eval . --scaffold --allow-tools Write Edit --threshold 0.8 --no-publish --max-cost-usd 20
 ```
 
-Claude Code has no agent picker, so each Cohestra prompt starts with "Use the Cohestra Coordinator to". The edit cases need a spawn depth of 2 or more. See [docs/TESTING.md](docs/TESTING.md).
+Claude Code has no agent picker, so each Cohestra prompt starts with "Use the mb-Cohestra Coordinator to". The edit cases need a spawn depth of 2 or more. See [docs/TESTING.md](docs/TESTING.md).
 
 The `--scaffold` flag runs each fixture script as you, outside the agent sandbox. Use it only for suites that you trust.
 
@@ -260,7 +332,7 @@ The `--scaffold` flag runs each fixture script as you, outside the agent sandbox
 
 ## Security
 
-Read the agent files before you install a plugin. Cohestra Coordinator delegates edit and execute actions to specialists. The client asks you to approve each action that its rules protect.
+Read the agent files before you install a plugin. mb-Cohestra Coordinator delegates edit and execute actions to specialists. The client asks you to approve each action that its rules protect.
 
 The package has no hooks, MCP server, background service, or telemetry code. Report a vulnerability through a private GitHub security advisory. Do not open a public issue. See [SECURITY.md](SECURITY.md).
 
