@@ -1,14 +1,55 @@
 name: Validate
-on: [push, pull_request]
+
+# Static checks and unit tests. They need no credentials and no model call.
+# The workflow also builds the release archive, so a packaging fault shows up
+# in a pull request and not on release day.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
 permissions:
   contents: read
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
+    name: Validate (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10', '3.12']
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-      - run: python3 scripts/validate.py
-      - run: python3 -m unittest discover -s tests
+          python-version: ${{ matrix.python-version }}
+
+      # PyYAML lets the validator parse YAML files with a full parser. When the
+      # install fails, the validator warns and still runs its local checks.
+      - name: Install PyYAML
+        run: python -m pip install --disable-pip-version-check pyyaml || echo "::warning::PyYAML did not install. YAML files get a limited check."
+
+      - name: Check the Claude mirrors
+        run: python scripts/sync_claude_agents.py --check
+
+      - name: Validate the package
+        run: python scripts/validate.py
+
+      - name: Run the unit tests
+        run: python tests/run.py
+
+      - name: Check fixture shell syntax
+        run: find evals -name '*.sh' -print0 | xargs -0 -r -n1 bash -n
+
+      - name: Build the release archive
+        run: python scripts/package.py --output-dir "$RUNNER_TEMP/dist"

@@ -1,0 +1,51 @@
+name: Feature request
+description: Suggest a change to Cohestra.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to suggest a change. Describe the problem first. Cohestra keeps a small scope: one visible coordinator, hidden specialists, no hooks, and no MCP server.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Cohestra Coordinator
+        - Specialist agents
+        - Portable skill
+        - Packaging and install
+        - Documentation
+        - Evals
+        - Workflows
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Describe the engineering task that Cohestra does not handle well today.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Describe the behavior that you want.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives
+      description: Describe other options that you considered.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: The change needs no hooks, MCP server, background service, or telemetry.
+          required: true
+        - label: I removed secrets and private code from this request.
+          required: true

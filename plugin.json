@@ -1,11 +1,20 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
-  "name": "multi-agent-review-coordinator",
-  "version": "4.0.0",
-  "description": "A coordinator that delegates repository reviews to specialized agents and returns one evidence-based report.",
-  "author": { "name": "Repository owner" },
-  "homepage": "https://github.com/OWNER/REPOSITORY",
-  "repository": "https://github.com/OWNER/REPOSITORY",
+  "name": "cohestra",
+  "version": "0.1.0",
+  "description": "Coordinated software engineering with one coordinator and delegated specialist agents.",
+  "author": {
+    "name": "Milos Baic",
+    "url": "https://github.com/mbaic"
+  },
+  "homepage": "https://github.com/mbaic/cohestra-agent-plugin",
+  "repository": "https://github.com/mbaic/cohestra-agent-plugin",
   "license": "MIT",
-  "keywords": ["multi-agent", "coordination", "delegation", "code-review", "security", "testing", "copilot"]
+  "keywords": [
+    "software-engineering",
+    "multi-agent",
+    "github-copilot",
+    "vscode",
+    "agent-plugins"
+  ]
 }
