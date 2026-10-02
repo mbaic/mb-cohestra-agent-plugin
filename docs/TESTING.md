@@ -16,7 +16,7 @@ The validator fails on:
 - A manifest name other than `cohestra`, or a version other than `0.1.0`.
 - A marketplace name or source mismatch.
 - A missing agent file.
-- More or fewer than one visible Copilot agent, or a visible name other than `Cohestra Coordinator`.
+- More or fewer than one visible Copilot agent, or a visible name other than `mb-Cohestra Coordinator`.
 - A specialist that is visible, blocked from the coordinator, or able to delegate.
 - A coordinator allowlist outside the roster.
 - A `target` or `model` field in an agent file.
@@ -79,7 +79,7 @@ Each case has a prompt, run limits, only the tools that it needs, and at least o
 
 ### How the cases select the coordinator
 
-Claude Code has no agent picker. A Claude Code user selects the coordinator by name. Each Cohestra prompt therefore starts with "Use the Cohestra Coordinator to". The negative case, `unrelated-request`, does not name it.
+Claude Code has no agent picker. A Claude Code user selects the coordinator by name. Each Cohestra prompt therefore starts with "Use the mb-Cohestra Coordinator to". The negative case, `unrelated-request`, does not name it.
 
 This matters. Without the name, the main model often does a small task itself and calls no Cohestra agent. A run on a three-file fixture showed this: the model read the files and answered correctly, and no Cohestra agent ran.
 
@@ -88,7 +88,7 @@ This matters. Without the name, the main model often does a small task itself an
 A maintainer checked real traces with Claude Code 2.1.287:
 
 - The plugin loads. The session lists nine agents as `cohestra:<agent-id>` and the skill as `cohestra:cohestra-engineering`.
-- A delegation is a tool call named `Agent`. Its input has a `subagent_type` field with the namespaced ID, for example `cohestra:cohestra-coordinator`.
+- A delegation is a tool call named `Agent`. Its input has a `subagent_type` field with the namespaced ID, for example `cohestra:mb-cohestra-coordinator`.
 - A call that the coordinator makes appears in the same trace. It has a `parent_tool_use_id` field that points to the coordinator call.
 - The coordinator has no edit tool. In the edit cases a correct run delegates the edit to a specialist. The `specialist-called` grader checks this.
 

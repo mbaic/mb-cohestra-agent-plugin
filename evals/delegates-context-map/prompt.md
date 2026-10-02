@@ -8,4 +8,4 @@ timeout_seconds: 240
 allowed_tools: [Read, Glob, Grep, Agent]
 plugins: ["../.."]
 ---
-Use the Cohestra Coordinator to map the files that control login and its tests. Return only paths, symbols, and a short flow. Do not propose changes.
+Use the mb-Cohestra Coordinator to map the files that control login and its tests. Return only paths, symbols, and a short flow. Do not propose changes.

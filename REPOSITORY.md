@@ -20,7 +20,7 @@ Use the repository URL as the homepage until a product site exists.
 | Product name | Cohestra |
 | Plugin ID | `cohestra` |
 | Version | `0.1.0` |
-| Visible agent | Cohestra Coordinator (`cohestra-coordinator`) |
+| Visible agent | mb-Cohestra Coordinator (`mb-cohestra-coordinator`) |
 | Tagline | Coordinated software engineering. |
 | Short message | One coordinator. Specialist agents. One engineering result. |
 | License | MIT |

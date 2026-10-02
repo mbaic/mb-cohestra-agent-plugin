@@ -5,7 +5,7 @@ description: Coordinates software engineering work with search-first discovery, 
 
 # Cohestra engineering
 
-Use this skill to coordinate software engineering work. The Cohestra Coordinator agent follows the same rules. Clients that load only skills can apply them without the agents.
+Use this skill to coordinate software engineering work. The mb-Cohestra Coordinator agent follows the same rules. Clients that load only skills can apply them without the agents.
 
 ## Classify the task
 

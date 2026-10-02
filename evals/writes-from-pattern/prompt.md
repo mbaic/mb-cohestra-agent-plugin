@@ -8,4 +8,4 @@ timeout_seconds: 300
 allowed_tools: [Read, Glob, Grep, Agent, Write, Edit]
 plugins: ["../.."]
 ---
-Use the Cohestra Coordinator to add src/handlers/get-invoice.js. Follow the existing handler pattern exactly. The table name is invoices.
+Use the mb-Cohestra Coordinator to add src/handlers/get-invoice.js. Follow the existing handler pattern exactly. The table name is invoices.

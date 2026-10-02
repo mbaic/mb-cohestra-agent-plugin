@@ -1,6 +1,6 @@
 ---
 type: tool_used
 tool: Agent
-input_match: 'cohestra:(?:cohestra-documentation-engineer)'
+input_match: 'cohestra:(?:mb-cohestra-documentation-engineer)'
 min: 1
 ---

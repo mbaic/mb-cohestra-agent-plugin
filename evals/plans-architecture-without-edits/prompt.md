@@ -8,4 +8,4 @@ timeout_seconds: 300
 allowed_tools: [Read, Glob, Grep, Agent, Write, Edit]
 plugins: ["../.."]
 ---
-Use the Cohestra Coordinator to plan the migration from local file storage to object storage. Do not edit files.
+Use the mb-Cohestra Coordinator to plan the migration from local file storage to object storage. Do not edit files.

@@ -8,4 +8,4 @@ timeout_seconds: 300
 allowed_tools: [Read, Glob, Grep, Agent, Write, Edit]
 plugins: ["../.."]
 ---
-Use the Cohestra Coordinator to check the change in changes.patch for correctness, security, compatibility, and missing tests. Do not edit files.
+Use the mb-Cohestra Coordinator to check the change in changes.patch for correctness, security, compatibility, and missing tests. Do not edit files.

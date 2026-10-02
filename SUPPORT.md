@@ -13,7 +13,7 @@ Give this information in each report:
 1. The client and its version. Examples are VS Code, GitHub Copilot CLI, the GitHub Copilot app, and Claude Code.
 2. The Cohestra version from `plugin.json`.
 3. The operating system.
-4. The prompt that you sent to Cohestra Coordinator.
+4. The prompt that you sent to mb-Cohestra Coordinator.
 5. Steps to reproduce the problem.
 6. Logs with secrets and private code removed.
 

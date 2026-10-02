@@ -65,10 +65,10 @@ body:
     id: steps
     attributes:
       label: Steps to reproduce
-      description: List each step. Include the prompt that you sent to Cohestra Coordinator.
+      description: List each step. Include the prompt that you sent to mb-Cohestra Coordinator.
       placeholder: |
         1. Open the repository.
-        2. Select Cohestra Coordinator.
+        2. Select mb-Cohestra Coordinator.
         3. Send the prompt.
     validations:
       required: true
