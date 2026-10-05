@@ -143,114 +143,116 @@ To start a session as the coordinator, add `--agent cohestra:mb-cohestra-coordin
 
 ## Use
 
-Select **mb-Cohestra Coordinator**. Give it a task and the constraints.
+Select **mb-Cohestra Coordinator**. Give it a task and the constraints. The examples below use Business Central AL development. They assume that an AL app is open in your workspace.
 
 Build a feature:
 
 ```text
-Add rate limiting to the public login endpoint. Follow existing patterns. Add tests and update the documentation.
+Add a Customer Rating field to the Customer table with a table extension. Show it on the Customer Card with a page extension. Use the object ID range from app.json and the name prefix of the other objects. Add an AL test and update the documentation.
 ```
 
 Plan a change:
 
 ```text
-Plan the migration from local file storage to object storage. Do not edit files.
+Plan the move of this extension from Business Central on-premises to SaaS. List the AL code that SaaS does not allow, such as DotNet variables and file system access. Do not edit files.
 ```
 
 Correct a defect:
 
 ```text
-Find the cause of the failing timeout test. Make the smallest safe correction. Run the related tests.
+Find the cause of the failing test codeunit for posting a sales invoice. The error says that the posting date is not within the range of allowed posting dates. Make the smallest safe correction. Run the related tests.
 ```
 
 Review current changes:
 
 ```text
-Check the current changes for correctness, security, compatibility, and missing tests. Do not edit files.
+Check the current changes for correctness, performance, permissions, and missing tests. Look for missing SetLoadFields calls, FindSet calls inside loops, hard-coded text, and objects that have no permission set entry. Do not edit files.
 ```
 
 Add tests:
 
 ```text
-Add tests for timeout and retry behavior. Do not change production behavior.
+Add AL tests for the credit limit check on the sales order. Use the Library - Sales and Library Assert codeunits. Cover a customer under the limit, over the limit, and blocked. Do not change production code.
 ```
 
 Update documentation:
 
 ```text
-Update the setup guide for the new configuration keys. Check all examples.
+Update the README for the new setup page. List each field, its default value, and the permission set that grants access. Check each field name against the page object.
 ```
 
 ### More prompts
 
-Use these as starting points. Replace the names with your own.
+Use these as starting points. Replace the object names, the fields, and the versions with your own.
 
-Explore a repository:
+Explore an app:
 
 ```text
-Map how a request moves from the API route to the database. Return paths and symbols only. Do not edit files.
+Map how a sales order moves from release to posting in this app. List the codeunits, the event subscribers, and the tables that we extend. Do not edit files.
 ```
 
-Design an interface:
+Design an extensible interface:
 
 ```text
-Design the interface between the billing module and the notification module. List the migration steps in order. Do not edit files.
+Design an interface and an extensible enum for payment export formats, so that a partner can add a format without changing our code. List the migration steps in order. Do not edit files.
 ```
 
-Check security:
+Check permissions:
 
 ```text
-Check the file upload endpoint for security defects. Trace each input to its use. Do not edit files.
+Check the permission sets in this app. Find objects that have no permission entry, and find codeunits that run with elevated permissions. Do not edit files.
 ```
 
-Check quality:
+Check performance:
 
 ```text
-Check the retry logic for correctness and regression risk. Run the existing tests. Do not edit files.
+Check the item ledger report for slow reads. Look for missing SetLoadFields calls, missing keys, and FlowField calculations inside loops. Do not edit files.
 ```
 
 Add a small feature:
 
 ```text
-Add a --dry-run option to the export command. Follow the existing option pattern. Add one test.
+Add a Send Reminder action to the Customer Ledger Entries page. Follow the pattern of the existing actions. Add one test.
 ```
 
 Refactor safely:
 
 ```text
-Extract the duplicated validation code in the order handlers into one function. Keep the behavior the same. Run the related tests.
+Move the duplicated posting date checks in our sales codeunits into one helper codeunit. Keep the behavior the same. Run the related tests.
 ```
 
 Plan an upgrade:
 
 ```text
-Plan the upgrade from version 2 to version 3 of the HTTP client library. List the breaking changes that affect this repository. Do not edit files.
+Plan the upgrade of this app from Business Central 24 to 25. List the breaking changes that affect our objects, the obsolete elements that we use, and the steps for the upgrade codeunit. Do not edit files.
 ```
 
 Copy a pattern:
 
 ```text
-Add handlers for invoices, payments, and refunds. Copy the pattern of the existing user handler.
+Add the table extension and the page extensions for a Vendor Rating field on the Vendor Card and the Vendor List. Copy the pattern of the Customer Rating extensions.
 ```
 
-Update documentation:
+Check the build setup:
 
 ```text
-Update the API reference for the new pagination parameters. Check each example against the code.
+Check the AL-Go for GitHub settings files in this repository. List the settings that affect the build, the test run, and the app folders. Do not edit files.
 ```
 
 Combine roles:
 
 ```text
-Fix the failing login test. Add a regression test. Update the changelog.
+Fix the failing posting test. Add a regression test. Update the release notes in the changelog.
 ```
 
 ### Tips for good prompts
 
 - State whether Cohestra can edit files. Write "Do not edit files" for a plan or a review.
-- Name the files, the endpoint, or the test when you know them.
-- Ask for the checks that you want, such as "Run the related tests".
+- Name the app, the object type, and the object ID or range when you know them.
+- Say whether the target is SaaS or on-premises, and give the Business Central version.
+- Ask for the checks that you want, such as "Run the related tests". Cohestra runs only the commands that your client allows.
 - Describe one result. The coordinator splits the work.
+- Cohestra reads AL source as text. It does not replace the AL compiler. Build the app in VS Code to confirm a change.
 - In Claude Code, start with "Use the mb-Cohestra Coordinator to". Claude Code has no agent picker.
 
 ## Client support

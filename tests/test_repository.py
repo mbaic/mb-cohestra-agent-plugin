@@ -484,15 +484,22 @@ class ReadmeTests(unittest.TestCase):
             self.assertIn(needle, self.text)
 
     def test_usage_examples(self):
+        # The examples use Business Central AL development.
         for prompt in (
-            "Add rate limiting to the public login endpoint. Follow existing patterns. Add tests and update the documentation.",
-            "Plan the migration from local file storage to object storage. Do not edit files.",
-            "Find the cause of the failing timeout test. Make the smallest safe correction. Run the related tests.",
-            "Check the current changes for correctness, security, compatibility, and missing tests. Do not edit files.",
-            "Add tests for timeout and retry behavior. Do not change production behavior.",
-            "Update the setup guide for the new configuration keys. Check all examples.",
+            'Add a Customer Rating field to the Customer table with a table extension. Show it on the Customer Card with a page extension. Use the object ID range from app.json and the name prefix of the other objects. Add an AL test and update the documentation.',
+            'Plan the move of this extension from Business Central on-premises to SaaS. List the AL code that SaaS does not allow, such as DotNet variables and file system access. Do not edit files.',
+            'Find the cause of the failing test codeunit for posting a sales invoice. The error says that the posting date is not within the range of allowed posting dates. Make the smallest safe correction. Run the related tests.',
+            'Check the current changes for correctness, performance, permissions, and missing tests. Look for missing SetLoadFields calls, FindSet calls inside loops, hard-coded text, and objects that have no permission set entry. Do not edit files.',
+            'Add AL tests for the credit limit check on the sales order. Use the Library - Sales and Library Assert codeunits. Cover a customer under the limit, over the limit, and blocked. Do not change production code.',
+            'Update the README for the new setup page. List each field, its default value, and the permission set that grants access. Check each field name against the page object.',
         ):
             self.assertIn(prompt, self.text)
+
+    def test_more_prompts_use_business_central_terms(self):
+        use = self.text.split("\n## Use\n", 1)[1].split("\n## Client support", 1)[0]
+        for term in ("Business Central", "AL ", "codeunit", "table extension", "permission set", "SetLoadFields",
+                     "event subscribers", "AL-Go for GitHub", "SaaS", "FlowField"):
+            self.assertIn(term, use)
 
     def test_readme_gives_enough_prompt_examples(self):
         use = self.text.split("\n## Use\n", 1)[1].split("\n## Client support", 1)[0]
